@@ -7,9 +7,9 @@ ENV PYTHONUNBUFFERED 1
 
 
 # set diretorio de trabalho
-ADD . /app
+ADD . /
 
-WORKDIR /app
+WORKDIR /
 
 # install system dependencies
 RUN apt-get update \
@@ -17,7 +17,6 @@ RUN apt-get update \
   && apt-get clean
 
 #install depedencias
-RUN pip install --upgrade pip
 RUN pip install poetry
 
 COPY poetry.lock pyproject.toml ./
