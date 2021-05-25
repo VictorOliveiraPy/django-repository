@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  core:
+    build: .
+    command: >
+      sh -c "python manage.py wait_for_db &&
+       python manage.py migrate &&
+       python manage.py runserver 0.0.0.0:8000"
+     
+    volumes:
+      - ./core:/core
+    ports:
+      - 8000:8000
+    env_file:
+      - .env.dev
+    depends_on:
+      - core-db
+  core-db:
+      image: postgres:13-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      environment:
+        - POSTGRES_USER=core
+        - POSTGRES_PASSWORD=core
+        - POSTGRES_DB=core_dev
+  
+volumes:
+    postgres_data:
